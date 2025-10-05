@@ -4,6 +4,9 @@
  */
 
 const express = require('express');
+const { handleLogin } = require('../controllers/login');
+const { authenticateUser } = require('../../../middlewares/authenticationMiddleware');
+const { validateLoginForm } = require('../../../middlewares/validationMiddleware');
 const router = express.Router();
 
 /**
@@ -35,28 +38,8 @@ router.get('/login', (req, res) => {
 
 /**
  * Login form submission handler
- * Processes login authentication
+ * Processes login authentication with validation and authentication middlewares
  */
-router.post('/login', (req, res) => {
-    const { username, password, rememberMe } = req.body;
-    
-    // Basic validation
-    if (!username || !password) {
-        return res.redirect('/login?error=Please fill in all fields');
-    }
-    
-    // TODO: Implement actual authentication logic here
-    // For demo purposes, we'll use simple credentials
-    if (username === 'admin' && password === 'password123') {
-        // Successful login
-        // TODO: Set session/JWT token here
-        console.log('Login successful for:', username);
-        res.redirect('/?success=Welcome back, ' + username + '!');
-    } else {
-        // Failed login
-        console.log('Login failed for:', username);
-        res.redirect('/login?error=Invalid username or password');
-    }
-});
+router.post('/login', validateLoginForm, authenticateUser, handleLogin);
 
 module.exports = router;

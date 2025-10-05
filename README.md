@@ -16,6 +16,20 @@ cp .env.example .env
 
 Edit the `.env` file to provide the necessary environment-specific values.
 
+## Configure DB Setup:
+
+### Option 1: Automated Setup
+````
+# Make sure your database connection is configured in .env
+npm run db:setup
+````
+
+### Option 2: Manual Setup
+````
+# Run the SQL file in your MySQL database
+mysql -u your_username -p your_database < database/setup.sql
+````
+
 
 ## Start Project
 
