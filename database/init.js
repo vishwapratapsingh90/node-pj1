@@ -17,13 +17,15 @@ const initializeDatabase = async () => {
         // Create pj1_credentials table
         const createTableSQL = `
             CREATE TABLE IF NOT EXISTS pj1_credentials (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                username VARCHAR(50) NOT NULL UNIQUE,
-                password VARCHAR(255) NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                INDEX idx_username (username)
-            )
+            id int(11) NOT NULL AUTO_INCREMENT,
+            username varchar(255) NOT NULL,
+            password varchar(255) NOT NULL,
+            updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+            updated_by int(11) NOT NULL,
+            created_at timestamp NOT NULL DEFAULT current_timestamp(),
+            created_by int(11) NOT NULL,
+            PRIMARY KEY (id)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
         `;
         
         await query(createTableSQL);
