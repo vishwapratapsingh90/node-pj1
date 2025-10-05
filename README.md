@@ -30,7 +30,6 @@ npm run db:setup
 mysql -u your_username -p your_database < database/setup.sql
 ````
 
-
 ## Start Project
 
 To start the project, execute the following command in the terminal from the project root directory:
@@ -43,3 +42,7 @@ Or, with auto-restart (recommended)
 ````
 npm run dev
 ````
+
+## Screenshots
+
+![Home Page] (public/images/app-screenshot.png)
