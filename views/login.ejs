@@ -1,0 +1,264 @@
+<!-- Login Form Section -->
+<section class="py-5 mt-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-7">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white text-center py-4">
+                        <h4 class="mb-0">
+                            <i class="fas fa-sign-in-alt me-2"></i>
+                            Welcome Back
+                        </h4>
+                        <p class="mb-0 mt-2">Sign in to your account</p>
+                    </div>
+                    
+                    <div class="card-body p-5">
+                        <!-- Login Form -->
+                        <form id="loginForm" action="/login" method="POST" novalidate>
+                            <!-- Username Field -->
+                            <div class="mb-4">
+                                <label for="username" class="form-label">
+                                    <i class="fas fa-user me-1"></i>Username or Email
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control form-control-lg" 
+                                    id="username" 
+                                    name="username" 
+                                    placeholder="Enter your username or email"
+                                    value="<%= typeof formData !== 'undefined' && formData.username ? formData.username : '' %>"
+                                    required
+                                >
+                                <div class="invalid-feedback">
+                                    Please enter a valid username or email.
+                                </div>
+                            </div>
+                            
+                            <!-- Password Field -->
+                            <div class="mb-4">
+                                <label for="password" class="form-label">
+                                    <i class="fas fa-lock me-1"></i>Password
+                                </label>
+                                <div class="input-group">
+                                    <input 
+                                        type="password" 
+                                        class="form-control form-control-lg" 
+                                        id="password" 
+                                        name="password" 
+                                        placeholder="Enter your password"
+                                        required
+                                    >
+                                    <button 
+                                        class="btn btn-outline-secondary" 
+                                        type="button" 
+                                        id="togglePassword"
+                                        title="Show/Hide Password"
+                                    >
+                                        <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please enter your password.
+                                </div>
+                            </div>
+                            
+                            <!-- Remember Me & Forgot Password -->
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="form-check">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="checkbox" 
+                                        id="rememberMe" 
+                                        name="rememberMe"
+                                        <%= typeof formData !== 'undefined' && formData.rememberMe ? 'checked' : '' %>
+                                    >
+                                    <label class="form-check-label" for="rememberMe">
+                                        Remember me
+                                    </label>
+                                </div>
+                                <a href="/forgot-password" class="text-decoration-none">
+                                    <i class="fas fa-question-circle me-1"></i>
+                                    Forgot Password?
+                                </a>
+                            </div>
+                            
+                            <!-- Submit Button -->
+                            <div class="d-grid mb-4">
+                                <button type="submit" class="btn btn-primary btn-lg" id="loginBtn">
+                                    <i class="fas fa-sign-in-alt me-2"></i>
+                                    Sign In
+                                </button>
+                            </div>
+                            
+                            <!-- CSRF Token (if using CSRF protection) -->
+                            <% if (typeof csrfToken !== 'undefined') { %>
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <% } %>
+                        </form>
+                        
+                        <!-- Alternative Login Options -->
+                        <div class="text-center">
+                            <p class="text-muted mb-3">Or sign in with</p>
+                            <div class="d-flex gap-2 justify-content-center mb-4">
+                                <button class="btn btn-outline-danger">
+                                    <i class="fab fa-google me-1"></i>
+                                    Google
+                                </button>
+                                <button class="btn btn-outline-primary">
+                                    <i class="fab fa-facebook-f me-1"></i>
+                                    Facebook
+                                </button>
+                                <button class="btn btn-outline-dark">
+                                    <i class="fab fa-github me-1"></i>
+                                    GitHub
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Sign Up Link -->
+                        <div class="text-center">
+                            <p class="mb-0">
+                                Don't have an account? 
+                                <a href="/register" class="text-decoration-none fw-bold">
+                                    Create one here
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Security Notice -->
+                <div class="text-center mt-4">
+                    <small class="text-muted">
+                        <i class="fas fa-shield-alt me-1"></i>
+                        Your information is protected with industry-standard encryption
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Page-specific JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const togglePassword = document.getElementById('togglePassword');
+    const usernameField = document.getElementById('username');
+    const passwordField = document.getElementById('password');
+    const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+    
+    // Password visibility toggle
+    togglePassword.addEventListener('click', function() {
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        
+        // Toggle icon
+        if (type === 'password') {
+            togglePasswordIcon.classList.remove('fa-eye-slash');
+            togglePasswordIcon.classList.add('fa-eye');
+        } else {
+            togglePasswordIcon.classList.remove('fa-eye');
+            togglePasswordIcon.classList.add('fa-eye-slash');
+        }
+    });
+    
+    // Form validation and submission
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Remove previous validation classes
+        const inputs = loginForm.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            input.classList.remove('is-invalid', 'is-valid');
+        });
+        
+        let isValid = true;
+        
+        // Validate username
+        const username = document.getElementById('username');
+        if (!username.value.trim()) {
+            username.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            username.classList.add('is-valid');
+        }
+        
+        // Validate password
+        const password = document.getElementById('password');
+        if (!password.value.trim()) {
+            password.classList.add('is-invalid');
+            isValid = false;
+        } else if (password.value.length < 6) {
+            password.classList.add('is-invalid');
+            password.nextElementSibling.nextElementSibling.textContent = 'Password must be at least 6 characters long.';
+            isValid = false;
+        } else {
+            password.classList.add('is-valid');
+        }
+        
+        if (isValid) {
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Signing In...';
+            
+            // Submit form
+            setTimeout(() => {
+                loginForm.submit();
+            }, 500);
+        }
+    });
+    
+    if (!usernameField.value) {
+        usernameField.focus();
+    } else if (!passwordField.value) {
+        passwordField.focus();
+    }
+    
+    console.log('Login form initialized');
+});
+</script>
+
+<!-- Custom CSS for login page -->
+<style>
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.input-group .btn {
+    border-left: none;
+}
+
+.form-check-input:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+@media (max-width: 576px) {
+    .card-body {
+        padding: 2rem !important;
+    }
+}
+
+/* Loading animation */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+</style>

@@ -1,0 +1,60 @@
+<article class="mb-5">
+    <h2>Welcome to My Blog</h2>
+    <p class="text-muted">
+        <i class="fas fa-calendar me-1"></i>
+        <%= new Date().toLocaleDateString() %>
+        <i class="fas fa-user ms-3 me-1"></i>
+        Admin
+    </p>
+    
+    <p class="lead">
+        This is a sample blog post using the <strong>blog.ejs</strong> layout!
+    </p>
+    
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+    </p>
+    
+    <div class="alert alert-info">
+        <i class="fas fa-info-circle me-2"></i>
+        <strong>Layout Info:</strong> This page is using the blog layout which includes a sidebar and blog-specific styling.
+    </div>
+    
+    <p>
+        The layout system automatically detected and applied the blog layout because we specified <code>layout: 'blog'</code> in the route handler.
+    </p>
+    
+    <div class="d-flex justify-content-between">
+        <div>
+            <span class="badge bg-primary">Node.js</span>
+            <span class="badge bg-success">Express</span>
+            <span class="badge bg-info">EJS</span>
+        </div>
+        <div>
+            <a href="#" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-heart me-1"></i>Like
+            </a>
+            <a href="#" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-share me-1"></i>Share
+            </a>
+        </div>
+    </div>
+</article>
+
+<article class="mb-5">
+    <h3>How the Dynamic Layout System Works</h3>
+    <p>
+        The system automatically discovers all <code>.ejs</code> files in the <code>views/layouts/</code> directory and makes them available for use.
+    </p>
+    
+    <h5>Available Layouts:</h5>
+    <ul>
+        <li><strong>homepage</strong> - Main website layout with navigation and footer</li>
+        <li><strong>admin</strong> - Admin panel layout with sidebar</li>
+        <li><strong>blog</strong> - Blog layout with sidebar and blog-specific styling</li>
+    </ul>
+    
+    <p>
+        Each route can specify which layout to use, or the system will fall back to the default layout.
+    </p>
+</article>

@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="fas fa-users fa-2x text-primary mb-2"></i>
+                <h5>Total Users</h5>
+                <h3 class="text-primary">1,234</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="fas fa-shopping-cart fa-2x text-success mb-2"></i>
+                <h5>Orders</h5>
+                <h3 class="text-success">567</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="fas fa-dollar-sign fa-2x text-warning mb-2"></i>
+                <h5>Revenue</h5>
+                <h3 class="text-warning">$12,345</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="fas fa-chart-line fa-2x text-info mb-2"></i>
+                <h5>Growth</h5>
+                <h3 class="text-info">+15%</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Recent Activity</h5>
+            </div>
+            <div class="card-body">
+                <p><i class="fas fa-info-circle text-info me-2"></i>This is using the <strong>admin.ejs</strong> layout!</p>
+                <p>The layout was automatically selected because we specified <code>layout: 'admin'</code> in the route.</p>
+                
+                <h6>Available Layouts:</h6>
+                <% if (typeof availableLayouts !== 'undefined') { %>
+                    <% Object.keys(availableLayouts).forEach(function(layout) { %>
+                        <span class="badge bg-secondary me-1"><%= layout %></span>
+                    <% }); %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,343 @@
+<!-- Register Section -->
+<section class="py-5 mt-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-success text-white text-center py-4">
+                        <h4 class="mb-0">
+                            <i class="fas fa-user-plus me-2"></i>
+                            Create Account
+                        </h4>
+                        <p class="mb-0 mt-2">Join our community today</p>
+                    </div>
+                    
+                    <div class="card-body p-5">
+                        <!-- Register Form -->
+                        <form id="registerForm" action="/register" method="POST" novalidate>
+                            <div class="row">
+                                <!-- First Name -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label">
+                                        <i class="fas fa-user me-1"></i>First Name
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        id="firstName" 
+                                        name="firstName" 
+                                        placeholder="First name"
+                                        required
+                                    >
+                                    <div class="invalid-feedback">
+                                        Please enter your first name.
+                                    </div>
+                                </div>
+                                
+                                <!-- Last Name -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName" class="form-label">
+                                        <i class="fas fa-user me-1"></i>Last Name
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        id="lastName" 
+                                        name="lastName" 
+                                        placeholder="Last name"
+                                        required
+                                    >
+                                    <div class="invalid-feedback">
+                                        Please enter your last name.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">
+                                    <i class="fas fa-envelope me-1"></i>Email Address
+                                </label>
+                                <input 
+                                    type="email" 
+                                    class="form-control" 
+                                    id="email" 
+                                    name="email" 
+                                    placeholder="Enter your email"
+                                    required
+                                >
+                                <div class="invalid-feedback">
+                                    Please enter a valid email address.
+                                </div>
+                            </div>
+                            
+                            <!-- Username -->
+                            <div class="mb-3">
+                                <label for="username" class="form-label">
+                                    <i class="fas fa-at me-1"></i>Username
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="username" 
+                                    name="username" 
+                                    placeholder="Choose a username"
+                                    required
+                                >
+                                <div class="invalid-feedback">
+                                    Please choose a username.
+                                </div>
+                                <div class="form-text">
+                                    Username must be 3-20 characters long.
+                                </div>
+                            </div>
+                            
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label">
+                                    <i class="fas fa-lock me-1"></i>Password
+                                </label>
+                                <div class="input-group">
+                                    <input 
+                                        type="password" 
+                                        class="form-control" 
+                                        id="password" 
+                                        name="password" 
+                                        placeholder="Create a password"
+                                        required
+                                    >
+                                    <button 
+                                        class="btn btn-outline-secondary" 
+                                        type="button" 
+                                        id="togglePassword"
+                                    >
+                                        <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Password must be at least 8 characters long.
+                                </div>
+                                <div class="form-text">
+                                    Use 8+ characters with letters, numbers & symbols.
+                                </div>
+                            </div>
+                            
+                            <!-- Confirm Password -->
+                            <div class="mb-4">
+                                <label for="confirmPassword" class="form-label">
+                                    <i class="fas fa-lock me-1"></i>Confirm Password
+                                </label>
+                                <input 
+                                    type="password" 
+                                    class="form-control" 
+                                    id="confirmPassword" 
+                                    name="confirmPassword" 
+                                    placeholder="Confirm your password"
+                                    required
+                                >
+                                <div class="invalid-feedback">
+                                    Passwords don't match.
+                                </div>
+                            </div>
+                            
+                            <!-- Terms Agreement -->
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="checkbox" 
+                                        id="agreeTerms" 
+                                        name="agreeTerms"
+                                        required
+                                    >
+                                    <label class="form-check-label" for="agreeTerms">
+                                        I agree to the 
+                                        <a href="/terms" target="_blank" class="text-decoration-none">Terms of Service</a> 
+                                        and 
+                                        <a href="/privacy" target="_blank" class="text-decoration-none">Privacy Policy</a>
+                                    </label>
+                                    <div class="invalid-feedback">
+                                        You must agree to the terms and conditions.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Submit Button -->
+                            <div class="d-grid mb-4">
+                                <button type="submit" class="btn btn-success btn-lg" id="registerBtn">
+                                    <i class="fas fa-user-plus me-2"></i>
+                                    Create Account
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <!-- Sign In Link -->
+                        <div class="text-center">
+                            <p class="mb-0">
+                                Already have an account? 
+                                <a href="/login" class="text-decoration-none fw-bold">
+                                    Sign in here
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Page-specific JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const registerForm = document.getElementById('registerForm');
+    const registerBtn = document.getElementById('registerBtn');
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordField = document.getElementById('password');
+    const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+    
+    // Password visibility toggle
+    togglePassword.addEventListener('click', function() {
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        
+        if (type === 'password') {
+            togglePasswordIcon.classList.remove('fa-eye-slash');
+            togglePasswordIcon.classList.add('fa-eye');
+        } else {
+            togglePasswordIcon.classList.remove('fa-eye');
+            togglePasswordIcon.classList.add('fa-eye-slash');
+        }
+    });
+    
+    // Form validation
+    registerForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Remove previous validation classes
+        const inputs = registerForm.querySelectorAll('.form-control, .form-check-input');
+        inputs.forEach(input => {
+            input.classList.remove('is-invalid', 'is-valid');
+        });
+        
+        let isValid = true;
+        
+        // Validate all fields
+        const firstName = document.getElementById('firstName');
+        const lastName = document.getElementById('lastName');
+        const email = document.getElementById('email');
+        const username = document.getElementById('username');
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const agreeTerms = document.getElementById('agreeTerms');
+        
+        // First name validation
+        if (!firstName.value.trim()) {
+            firstName.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            firstName.classList.add('is-valid');
+        }
+        
+        // Last name validation
+        if (!lastName.value.trim()) {
+            lastName.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            lastName.classList.add('is-valid');
+        }
+        
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email.value.trim() || !emailRegex.test(email.value)) {
+            email.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            email.classList.add('is-valid');
+        }
+        
+        // Username validation
+        if (!username.value.trim() || username.value.length < 3 || username.value.length > 20) {
+            username.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            username.classList.add('is-valid');
+        }
+        
+        // Password validation
+        if (!password.value || password.value.length < 8) {
+            password.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            password.classList.add('is-valid');
+        }
+        
+        // Confirm password validation
+        if (confirmPassword.value !== password.value) {
+            confirmPassword.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            confirmPassword.classList.add('is-valid');
+        }
+        
+        // Terms agreement validation
+        if (!agreeTerms.checked) {
+            agreeTerms.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            agreeTerms.classList.add('is-valid');
+        }
+        
+        if (isValid) {
+            // Show loading state
+            registerBtn.disabled = true;
+            registerBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Creating Account...';
+            
+            // Simulate form submission (replace with actual submission)
+            setTimeout(() => {
+                alert('Registration functionality not implemented yet. This is a demo.');
+                registerBtn.disabled = false;
+                registerBtn.innerHTML = '<i class="fas fa-user-plus me-2"></i>Create Account';
+            }, 2000);
+        }
+    });
+    
+    // Auto-focus first field
+    document.getElementById('firstName').focus();
+    
+    console.log('Register form initialized');
+});
+</script>
+
+<!-- Custom CSS -->
+<style>
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.form-control:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.btn-success:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.form-check-input:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+@media (max-width: 576px) {
+    .card-body {
+        padding: 2rem !important;
+    }
+}
+</style>

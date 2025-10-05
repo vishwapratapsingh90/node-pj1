@@ -1,0 +1,103 @@
+<!-- Hero Section -->
+<section class="hero-section text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="display-4 fw-bold mb-4">
+                    Welcome to <%= typeof appName !== 'undefined' ? appName : 'MyApp' %>
+                </h1>
+                <p class="lead mb-4">
+                    <%= typeof description !== 'undefined' ? description : 'Building amazing web applications with Node.js, Express, and modern technologies.' %>
+                </p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <a href="/about" class="btn btn-light btn-lg px-4 me-md-2">
+                        <i class="fas fa-info-circle me-2"></i>Learn More
+                    </a>
+                    <a href="/test" class="btn btn-outline-light btn-lg px-4">
+                        <i class="fas fa-vial me-2"></i>Test Page
+                    </a>
+                </div>
+                
+                <!-- Layout Demo Links -->
+                <div class="mt-4">
+                    <h6>Try Different Layouts:</h6>
+                    <div class="d-flex gap-2 justify-content-center flex-wrap">
+                        <a href="/admin" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-cog me-1"></i>Admin Layout
+                        </a>
+                        <a href="/blog" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-blog me-1"></i>Blog Layout
+                        </a>
+                        <a href="/layouts" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-list me-1"></i>View All Layouts
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold">Environment: <%= typeof envName !== 'undefined' ? envName : 'dev' %></h2>
+                <p class="lead text-muted">Current application environment and status</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-server fa-lg"></i>
+                        </div>
+                        <h4 class="card-title">Server Status</h4>
+                        <p class="card-text text-muted">
+                            Application is running successfully on port <%= typeof PORT !== 'undefined' ? PORT : '8001' %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-success bg-gradient text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-database fa-lg"></i>
+                        </div>
+                        <h4 class="card-title">Database Ready</h4>
+                        <p class="card-text text-muted">
+                            Multi-environment database configuration is set up and ready to use.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-info bg-gradient text-white rounded-circle mx-auto mb-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-code fa-lg"></i>
+                        </div>
+                        <h4 class="card-title">EJS Templates</h4>
+                        <p class="card-text text-muted">
+                            Template engine is configured and working with Bootstrap 5 styling.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Page-specific JavaScript -->
+<script>
+console.log('Homepage content loaded!');
+if (typeof envName !== 'undefined' && envName === 'dev') {
+    console.log('Development mode enabled - Homepage');
+}
+</script>
