@@ -45,4 +45,4 @@ npm run dev
 
 ## Screenshots
 
-![Home Page] (public/images/app-screenshot.png)
+<img src="public/images/app-screenshot.png" alt="Description of your app's main screen" width="500"/>
