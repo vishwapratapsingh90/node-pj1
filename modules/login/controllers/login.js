@@ -25,7 +25,7 @@ const handleLogin = (req, res) => {
     // Successful login
     // TODO: Set session/JWT token here
     console.log('Login successful for:', user.username);
-    res.redirect('/?success=' + encodeURIComponent('Welcome back, ' + user.name + '!'));
+    res.redirect('/?success=' + encodeURIComponent('Welcome back, ' + user.username + '!'));
 };
 
 module.exports = {

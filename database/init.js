@@ -1,6 +1,6 @@
 /**
  * Database Initialization Script
- * Creates necessary tables and inserts demo data
+ * Creates necessary tables and inserts demo data by reading from setup.sql
  */
 
 const { query } = require('../config/db');
@@ -8,51 +8,107 @@ const fs = require('fs');
 const path = require('path');
 
 /**
+ * Parse SQL file and extract executable statements
+ * @param {string} sqlContent - Content of the SQL file
+ * @returns {Array} Array of SQL statements
+ */
+const parseSQLFile = (sqlContent) => {
+    // Remove comments (-- style and /* */ style)
+    let cleanContent = sqlContent
+        .replace(/--.*$/gm, '') // Remove -- comments
+        .replace(/\/\*[\s\S]*?\*\//g, '') // Remove /* */ comments
+        .replace(/^\s*$/gm, '') // Remove empty lines
+        .trim();
+    
+    // Split by semicolon and filter out empty statements
+    const statements = cleanContent
+        .split(';')
+        .map(stmt => stmt.trim())
+        .filter(stmt => stmt.length > 0 && !stmt.toLowerCase().startsWith('select'));
+    
+    return statements;
+};
+
+/**
+ * Read and execute SQL statements from setup.sql file
+ */
+const executeSQLFile = async () => {
+    try {
+        const sqlFilePath = path.join(__dirname, 'setup.sql');
+        
+        if (!fs.existsSync(sqlFilePath)) {
+            throw new Error('setup.sql file not found');
+        }
+        
+        console.log('Reading SQL statements from setup.sql...');
+        const sqlContent = fs.readFileSync(sqlFilePath, 'utf8');
+        const statements = parseSQLFile(sqlContent);
+        
+        console.log(`Found ${statements.length} SQL statements to execute`);
+        
+        // Execute each statement
+        for (let i = 0; i < statements.length; i++) {
+            const statement = statements[i];
+            console.log(`Executing statement ${i + 1}/${statements.length}...`);
+            
+            try {
+                await query(statement);
+                
+                // Log what was executed
+                if (statement.toLowerCase().includes('create table')) {
+                    const tableName = statement.match(/create table[^`]*`?(\w+)`?/i)?.[1];
+                    console.log(`✓ Table '${tableName}' created/verified`);
+                } else if (statement.toLowerCase().includes('insert into')) {
+                    const tableName = statement.match(/insert into[^`]*`?(\w+)`?/i)?.[1];
+                    console.log(`✓ Data inserted into '${tableName}' table`);
+                } else {
+                    console.log(`✓ Statement executed successfully`);
+                }
+            } catch (error) {
+                console.error(`✗ Error executing statement ${i + 1}:`, error.message);
+                console.error('Statement:', statement.substring(0, 100) + '...');
+                // Continue with next statement instead of failing completely
+            }
+        }
+        
+        return { success: true, statementsExecuted: statements.length };
+        
+    } catch (error) {
+        console.error('Error reading or executing SQL file:', error.message);
+        throw error;
+    }
+};
+
+/**
  * Initialize the database with required tables and demo data
  */
 const initializeDatabase = async () => {
     try {
-        console.log('Starting database initialization...');
+        console.log('Starting database initialization from setup.sql...');
         
-        // Create pj1_credentials table
-        const createTableSQL = `
-            CREATE TABLE IF NOT EXISTS pj1_credentials (
-            id int(11) NOT NULL AUTO_INCREMENT,
-            username varchar(255) NOT NULL,
-            password varchar(255) NOT NULL,
-            updated_at timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-            updated_by int(11) NOT NULL,
-            created_at timestamp NOT NULL DEFAULT current_timestamp(),
-            created_by int(11) NOT NULL,
-            PRIMARY KEY (id)
-            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
-        `;
+        // Execute all statements from setup.sql
+        const result = await executeSQLFile();
         
-        await query(createTableSQL);
-        console.log('✓ pj1_credentials table created/verified');
-        
-        // Insert demo users
-        const insertDemoUsers = `
-            INSERT INTO pj1_credentials (username, password, updated_by, created_by) VALUES 
-            ('admin', 'password123', 1, 1),
-            ('user', 'user123', 1, 1),
-            ('demo', 'demo123', 1, 1)
-            ON DUPLICATE KEY UPDATE password = VALUES(password)
-        `;
-        
-        await query(insertDemoUsers);
-        console.log('✓ Demo users inserted/updated');
-        
-        // Verify the setup
-        const users = await query('SELECT id, username, created_at FROM pj1_credentials');
-        console.log('✓ Database initialization completed successfully');
-        console.log('Available users:', users.map(u => u.username).join(', '));
-        
-        return {
-            success: true,
-            message: 'Database initialized successfully',
-            userCount: users.length
-        };
+        // Verify the setup by checking for users
+        try {
+            const users = await query('SELECT id, username, created_at FROM pj1_credentials LIMIT 5');
+            console.log('✓ Database initialization completed successfully');
+            console.log(`Available users: ${users.map(u => u.username).join(', ')}`);
+            
+            return {
+                success: true,
+                message: 'Database initialized successfully from setup.sql',
+                userCount: users.length,
+                statementsExecuted: result.statementsExecuted
+            };
+        } catch (verificationError) {
+            console.warn('Database initialized but verification failed:', verificationError.message);
+            return {
+                success: true,
+                message: 'Database initialized (verification failed)',
+                statementsExecuted: result.statementsExecuted
+            };
+        }
         
     } catch (error) {
         console.error('✗ Database initialization failed:', error.message);

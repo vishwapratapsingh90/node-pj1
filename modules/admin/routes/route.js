@@ -4,13 +4,14 @@
  */
 
 const express = require('express');
+const { requireAuth, requireRole } = require('../../../middlewares/sessionMiddleware');
 const router = express.Router();
 
 /**
- * Admin dashboard route
+ * Admin dashboard route (protected - requires admin role)
  * Renders the admin dashboard with admin layout
  */
-router.get('/admin', (req, res) => {
+router.get('/admin', requireAuth, requireRole('admin'), (req, res) => {
     // Get environment variables from app.locals
     const { INSTANCE_NAME, ENV_NAME } = req.app.locals;
     

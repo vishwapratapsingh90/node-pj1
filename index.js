@@ -7,6 +7,8 @@ const fs = require('fs');
 const expressLayouts = require('express-ejs-layouts');
 const { createLayoutMiddleware, selectLayout } = require('./middlewares/layoutMiddleware');
 const { loadRouteModules } = require('./utils/routeLoader');
+const { configureSession } = require('./middlewares/sessionMiddleware');
+const { injectViewHelpers } = require('./helpers/viewHelpers');
 const app = express();
 
 // Auto-load all route modules
@@ -76,6 +78,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Body parsing middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Configure session management
+configureSession(app);
+
+// Inject view helpers (user info, etc.)
+app.use(injectViewHelpers);
 
 // Route to list all available layouts
 app.get('/layouts', (req, res) => {

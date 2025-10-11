@@ -7,13 +7,14 @@ const express = require('express');
 const { handleLogin } = require('../controllers/login');
 const { authenticateUser } = require('../../../middlewares/authenticationMiddleware');
 const { validateLoginForm } = require('../../../middlewares/validationMiddleware');
+const { createUserSession, redirectIfAuthenticated, logoutUser } = require('../../../middlewares/sessionMiddleware');
 const router = express.Router();
 
 /**
  * Login page route
- * Renders the login form
+ * Renders the login form (redirects if already authenticated)
  */
-router.get('/login', (req, res) => {
+router.get('/login', redirectIfAuthenticated, (req, res) => {
     // Get environment variables from app.locals
     const { INSTANCE_NAME, ENV_NAME, PROTOCOL, BASE_URL, PORT } = req.app.locals;
     
@@ -38,8 +39,15 @@ router.get('/login', (req, res) => {
 
 /**
  * Login form submission handler
- * Processes login authentication with validation and authentication middlewares
+ * Processes login authentication with validation, authentication, and session creation
  */
-router.post('/login', validateLoginForm, authenticateUser, handleLogin);
+router.post('/login', validateLoginForm, authenticateUser, createUserSession, handleLogin);
+
+/**
+ * Logout route
+ * Destroys user session and redirects to login
+ */
+router.get('/logout', logoutUser);
+router.post('/logout', logoutUser);
 
 module.exports = router;
